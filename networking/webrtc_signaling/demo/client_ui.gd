@@ -33,7 +33,11 @@ func _mp_server_disconnect():
 
 func _mp_peer_connected(id: int):
 	_log("[Multiplayer] Peer %d connected" % id)
-
+	var string_id
+	var own_id = str(client.rtc_mp.get_unique_id())
+	var option_button = $VBoxContainer/OptionButton
+	string_id = str(id)
+	$VBoxContainer/OptionButton.add_item(string_id)
 
 func _mp_peer_disconnected(id: int):
 	_log("[Multiplayer] Peer %d disconnected" % id)
