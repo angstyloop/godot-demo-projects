@@ -5,6 +5,8 @@ extends Control
 @onready var room = $VBoxContainer/Connect/RoomSecret
 @onready var mesh = $VBoxContainer/Connect/Mesh
 
+var peer_id
+
 func _ready():
 	client.lobby_joined.connect(self._lobby_joined)
 	client.lobby_sealed.connect(self._lobby_sealed)
@@ -22,7 +24,6 @@ func _ready():
 func ping(argument):
 	_log("[Multiplayer] Ping from peer %d: arg: %s" % [multiplayer.get_remote_sender_id(), argument])
 
-
 func _mp_server_connected():
 	_log("[Multiplayer] Server connected (I am %d)" % client.rtc_mp.get_unique_id())
 
@@ -36,8 +37,9 @@ func _mp_peer_connected(id: int):
 	var string_id
 	var own_id = str(client.rtc_mp.get_unique_id())
 	var option_button = $VBoxContainer/OptionButton
-	string_id = str(id)
-	$VBoxContainer/OptionButton.add_item(string_id)
+	option_button.refresh_peers()
+	#string_id = str(id)
+	#$VBoxContainer/OptionButton.add_item(string_id)
 
 func _mp_peer_disconnected(id: int):
 	_log("[Multiplayer] Peer %d disconnected" % id)
@@ -53,6 +55,9 @@ func _disconnected():
 
 func _lobby_joined(lobby):
 	_log("[Signaling] Joined lobby %s" % lobby)
+	peer_id = client.rtc_mp.get_unique_id()
+	print("unique_id")
+	print(peer_id)
 
 
 func _lobby_sealed():
