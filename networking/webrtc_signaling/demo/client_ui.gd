@@ -85,13 +85,26 @@ func _on_start_pressed():
 func _on_stop_pressed():
 	client.stop()
 
+var message_logs = {}
+
 @rpc("any_peer", "call_local")
 func send_message(message: String):
-	_log("%d: %s" % [multiplayer.get_remote_sender_id(), message])
+	var sender_id = multiplayer.get_remote_sender_id()
+	var log_message = "%d: %s" % [sender_id, message]
+	_log(log_message)
+	if !message_logs.has(sender_id):
+		message_logs[sender_id] = ""
+	message_logs[sender_id] += log_message + "\n"
 
 func _on_button_pressed():
-	var peer_id = get_node("VBoxContainer").get_node("HBoxContainer2").get_node("OptionButton").get_selected_peer_id()
+	var peer_id = $VBoxContainer/HBoxContainer2/OptionButton.get_selected_peer_id()
 	if !peer_id:
 		return
 	var message = get_node("VBoxContainer").get_node("LineEdit").text
 	rpc_id(peer_id, "send_message", message)
+
+var selected_peer_id = 1
+
+func _on_option_button_item_selected(index):
+	selected_peer_id = $VBoxContainer/HBoxContainer2/OptionButton.peer_ids[index]
+	$VBoxContainer/TextEdit.text = message_logs[selected_peer_id]
