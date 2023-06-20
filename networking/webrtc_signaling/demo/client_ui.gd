@@ -54,8 +54,6 @@ func _disconnected():
 func _lobby_joined(lobby):
 	_log("[Signaling] Joined lobby %s" % lobby)
 	peer_id = client.rtc_mp.get_unique_id()
-	print("unique_id")
-	print(peer_id)
 	$VBoxContainer/Label.text = "Peer ID: %s" % str(peer_id)
 
 
@@ -86,3 +84,14 @@ func _on_start_pressed():
 
 func _on_stop_pressed():
 	client.stop()
+
+@rpc("any_peer", "call_local")
+func send_message(message: String):
+	_log("%d: %s" % [multiplayer.get_remote_sender_id(), message])
+
+func _on_button_pressed():
+	var peer_id = get_node("VBoxContainer").get_node("HBoxContainer2").get_node("OptionButton").get_selected_peer_id()
+	if !peer_id:
+		return
+	var message = get_node("VBoxContainer").get_node("LineEdit").text
+	rpc_id(peer_id, "send_message", message)

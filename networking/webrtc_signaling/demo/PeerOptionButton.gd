@@ -10,12 +10,9 @@ func _ready():
 	selected = 0
 	
 func refresh_peers():
-	print("refresh_peers")
 	client = get_parent().get_parent().get_parent().get_node("Client")
 	peers = client.rtc_mp.get_peers()
 	peer_ids = peers.keys()
-	print("peer_ids")
-	print(peer_ids)
 	clear()
 	for id in peer_ids:
 		add_item(str(id))
