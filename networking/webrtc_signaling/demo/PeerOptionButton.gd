@@ -11,7 +11,7 @@ func _ready():
 	
 func refresh_peers():
 	print("refresh_peers")
-	client = get_parent().get_parent().get_node("Client")
+	client = get_parent().get_parent().get_parent().get_node("Client")
 	peers = client.rtc_mp.get_peers()
 	peer_ids = peers.keys()
 	print("peer_ids")

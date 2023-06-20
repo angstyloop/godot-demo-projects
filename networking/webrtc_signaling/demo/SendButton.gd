@@ -15,8 +15,11 @@ func _log(msg):
 
 @rpc("any_peer", "call_local")
 func send_message(message: String):
-	_log("[Multiplayer] Message from peer %d: arg: %s" % [multiplayer.get_remote_sender_id(), message])
+	_log("%d: %s" % [multiplayer.get_remote_sender_id(), message])
 
 func _on_pressed():
-	var peer_id = get_parent().get_node("OptionButton").get_selected_peer_id()
-	rpc_id(peer_id, "send_message", "message")
+	var peer_id = get_parent().get_node("HBoxContainer2").get_node("OptionButton").get_selected_peer_id()
+	if !peer_id:
+		return
+	var message = get_parent().get_node("LineEdit").text
+	rpc_id(peer_id, "send_message", message)

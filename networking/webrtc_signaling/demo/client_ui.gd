@@ -36,10 +36,8 @@ func _mp_peer_connected(id: int):
 	_log("[Multiplayer] Peer %d connected" % id)
 	var string_id
 	var own_id = str(client.rtc_mp.get_unique_id())
-	var option_button = $VBoxContainer/OptionButton
+	var option_button = $VBoxContainer/HBoxContainer2/OptionButton
 	option_button.refresh_peers()
-	#string_id = str(id)
-	#$VBoxContainer/OptionButton.add_item(string_id)
 
 func _mp_peer_disconnected(id: int):
 	_log("[Multiplayer] Peer %d disconnected" % id)
@@ -58,6 +56,7 @@ func _lobby_joined(lobby):
 	peer_id = client.rtc_mp.get_unique_id()
 	print("unique_id")
 	print(peer_id)
+	$VBoxContainer/Label.text = "Peer ID: %s" % str(peer_id)
 
 
 func _lobby_sealed():

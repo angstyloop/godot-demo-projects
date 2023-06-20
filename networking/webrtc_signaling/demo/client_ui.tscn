@@ -74,16 +74,30 @@ text = "Ping"
 layout_mode = 2
 text = "Print peers"
 
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "To:"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("3_crfds")
+
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 7
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
-layout_mode = 2
-script = ExtResource("3_crfds")
-
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
+placeholder_text = "Message"
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
