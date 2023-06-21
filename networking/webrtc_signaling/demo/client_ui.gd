@@ -98,17 +98,38 @@ var message_logs = {}
 @rpc("any_peer", "call_local")
 func send_message(message: String):
 	var sender_id = multiplayer.get_remote_sender_id()
-	var log_message = "%d: %s" % [sender_id, message]
+	var name
+	if sender_id == 1:
+		name = "server"
+	elif player_info.has(sender_id):
+		name = player_info[sender_id].name
+	else:
+		return
+	var log_message = "%s: %s" % [name, message]
 	_log(log_message)
 	if !message_logs.has(sender_id):
 		message_logs[sender_id] = ""
 	message_logs[sender_id] += log_message + "\n"
+
+@rpc("any_peer", "call_local")
+func refresh_infos():
+	if multiplayer.get_remote_sender_id() != 1:
+		return
+	player_info = get_parent().get_parent().get_parent().player_info
 
 func _on_button_pressed():
 	var peer_id = $VBoxContainer/HBoxContainer2/OptionButton.get_selected_peer_id()
 	if !peer_id:
 		return
 	var message = get_node("VBoxContainer").get_node("LineEdit").text
+	
+	var name = "me"
+	var log_message = "%s: %s" % [name, message]
+	_log(log_message)
+	if !message_logs.has(peer_id):
+		message_logs[peer_id] = ""
+	message_logs[peer_id] += log_message + "\n"
+	
 	rpc_id(peer_id, "send_message", message)
 
 var selected_peer_id = 1
@@ -134,6 +155,7 @@ func register_player(info: Dictionary):
 	player_info[sender_id] = info
 	
 	rpc("refresh_peers")
+	rpc("refresh_infos")
 
 func _on_register_pressed():
 	if (peer_id == 1):
