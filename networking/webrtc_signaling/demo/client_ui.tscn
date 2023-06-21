@@ -78,11 +78,6 @@ visible = false
 layout_mode = 2
 text = "Ping"
 
-[node name="Peers" type="Button" parent="VBoxContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Print peers"
-
 [node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Optional name"
@@ -117,6 +112,5 @@ text = "Send"
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Leave" to="." method="_on_leave_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Seal" to="." method="_on_seal_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Ping" to="." method="_on_ping_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Peers" to="." method="_on_peers_pressed"]
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

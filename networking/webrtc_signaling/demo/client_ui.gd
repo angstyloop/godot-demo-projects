@@ -67,7 +67,6 @@ func _lobby_joined(lobby):
 	hbox.get_node("Register").visible = true
 	hbox.get_node("Leave").visible = true
 	hbox.get_node("Ping").visible = true
-	hbox.get_node("Peers").visible = true
 	if peer_id == 1:
 		hbox.get_node("Seal").visible = true
 
@@ -78,10 +77,6 @@ func _lobby_sealed():
 func _log(msg):
 	print(msg)
 	$VBoxContainer/TextEdit.text += str(msg) + "\n"
-
-
-func _on_peers_pressed():
-	_log(multiplayer.get_peers())
 
 
 func _on_ping_pressed():
