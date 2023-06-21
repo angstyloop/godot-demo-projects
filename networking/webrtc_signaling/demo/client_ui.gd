@@ -86,12 +86,12 @@ func _on_seal_pressed():
 	client.seal_lobby()
 
 
-func _on_start_pressed():
-	client.start(host.text, room.text, mesh.button_pressed)
+func _on_join_pressed():
+	client.join(host.text, room.text, mesh.button_pressed)
 
 
-func _on_stop_pressed():
-	client.stop()
+func _on_leave_pressed():
+	client.leave()
 
 var message_logs = {}
 

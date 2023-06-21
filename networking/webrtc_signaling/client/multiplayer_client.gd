@@ -17,15 +17,15 @@ func _init():
 	peer_disconnected.connect(self._peer_disconnected)
 
 
-func start(url, lobby = "", mesh:=true):
-	stop()
+func join(url, lobby = "", mesh:=true):
+	leave()
 	sealed = false
 	self.mesh = mesh
 	self.lobby = lobby
 	connect_to_url(url)
 
 
-func stop():
+func leave():
 	multiplayer.multiplayer_peer = null
 	rtc_mp.close()
 	close()
@@ -79,7 +79,7 @@ func _lobby_sealed():
 func _disconnected():
 	print("Disconnected: %d: %s" % [code, reason])
 	if not sealed:
-		stop() # Unexpected disconnect
+		leave() # Unexpected disconnect
 
 
 func _peer_connected(id):
