@@ -95,9 +95,12 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 script = ExtResource("3_crfds")
 
-[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+[node name="Messages" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 7
+focus_mode = 2
+selection_enabled = true
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2

@@ -76,7 +76,9 @@ func _lobby_sealed():
 
 func _log(msg):
 	print(msg)
-	$VBoxContainer/TextEdit.text += str(msg) + "\n"
+	var el = $VBoxContainer/Messages
+	el.text += str(msg) + "\n"
+	el.scroll_to_line(el.get_line_count())
 
 
 func _on_ping_pressed():
@@ -120,7 +122,7 @@ func refresh_infos():
 
 func _on_button_pressed():
 	var peer_id = $VBoxContainer/HBoxContainer2/OptionButton.get_selected_peer_id()
-	if !peer_id:
+	if !peer_id || (peer_id != 1 && !player_info.has(peer_id)):
 		return
 	var message = get_node("VBoxContainer").get_node("LineEdit").text
 	
@@ -139,7 +141,7 @@ func _on_option_button_item_selected(index):
 	selected_peer_id = int($VBoxContainer/HBoxContainer2/OptionButton.peer_ids[index])
 	if !message_logs.has(selected_peer_id):
 		message_logs[selected_peer_id] = ""
-	$VBoxContainer/TextEdit.text = message_logs[selected_peer_id]
+	$VBoxContainer/Messages.text = message_logs[selected_peer_id]
 
 @rpc("any_peer", "call_local")
 func refresh_peers():
