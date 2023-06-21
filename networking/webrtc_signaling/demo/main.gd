@@ -1,5 +1,7 @@
 extends Control
 
+var player_info = {}
+
 func _enter_tree():
 	for c in $VBoxContainer/Clients.get_children():
 		# So each child gets its own separate MultiplayerAPI.

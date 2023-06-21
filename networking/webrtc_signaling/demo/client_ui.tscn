@@ -57,6 +57,10 @@ layout_mode = 2
 layout_mode = 2
 text = "Start"
 
+[node name="Register" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Register"
+
 [node name="Stop" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Stop"
@@ -72,6 +76,10 @@ text = "Ping"
 [node name="Peers" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Print peers"
+
+[node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Optional name"
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
@@ -103,6 +111,7 @@ layout_mode = 2
 text = "Send"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Register" to="." method="_on_register_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Stop" to="." method="_on_stop_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Seal" to="." method="_on_seal_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Ping" to="." method="_on_ping_pressed"]
