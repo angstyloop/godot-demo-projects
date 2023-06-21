@@ -24,6 +24,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Label2" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
 [node name="Connect" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -57,16 +61,16 @@ layout_mode = 2
 layout_mode = 2
 text = "Join"
 
-[node name="Register" type="Button" parent="VBoxContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Register"
-
 [node name="Leave" type="Button" parent="VBoxContainer/HBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Leave
 "
+
+[node name="Register" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Register"
 
 [node name="Seal" type="Button" parent="VBoxContainer/HBoxContainer"]
 visible = false
@@ -79,13 +83,16 @@ layout_mode = 2
 text = "Ping"
 
 [node name="LineEdit2" type="LineEdit" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 placeholder_text = "Optional name"
 
 [node name="Label" type="Label" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 
@@ -96,6 +103,7 @@ size_flags_vertical = 4
 script = ExtResource("3_crfds")
 
 [node name="Messages" type="RichTextLabel" parent="VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 7
@@ -103,16 +111,18 @@ focus_mode = 2
 selection_enabled = true
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 placeholder_text = "Message"
 
 [node name="Button" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Send"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Register" to="." method="_on_register_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Leave" to="." method="_on_leave_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Register" to="." method="_on_register_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Seal" to="." method="_on_seal_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Ping" to="." method="_on_ping_pressed"]
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/OptionButton" to="." method="_on_option_button_item_selected"]

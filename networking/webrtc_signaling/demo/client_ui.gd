@@ -64,11 +64,27 @@ func _lobby_joined(lobby):
 	_log("[Signaling] Joined lobby %s" % lobby)
 	peer_id = client.rtc_mp.get_unique_id()
 	var hbox = $VBoxContainer/HBoxContainer
-	hbox.get_node("Register").visible = true
+	hbox.get_node("Join").visible = false
 	hbox.get_node("Leave").visible = true
-	hbox.get_node("Ping").visible = true
 	if peer_id == 1:
+		var connect = $VBoxContainer/Connect
+		var room_label = connect.get_node("Room")
+		room_label.visible = false
+		var room_secret = connect.get_node("RoomSecret")
+		room_secret.visible = false
+		var room_secret_text = lobby
+		var room_secret_label = $VBoxContainer/Label2
+		room_secret_label.text = room_secret_text
+		room_secret_label.visible = true
+		$VBoxContainer/Messages.visible = true
 		hbox.get_node("Seal").visible = true
+		var label = $VBoxContainer/Label
+		label.text = "server"
+		label.visible = true
+		hbox.get_node("Ping").visible = true
+	else:
+		$VBoxContainer/LineEdit2.visible = true
+		hbox.get_node("Register").visible = true
 
 
 func _lobby_sealed():
@@ -113,12 +129,7 @@ func send_message(message: String):
 	if !message_logs.has(sender_id):
 		message_logs[sender_id] = ""
 	message_logs[sender_id] += log_message + "\n"
-
-@rpc("any_peer", "call_local")
-func refresh_infos():
-	if multiplayer.get_remote_sender_id() != 1:
-		return
-	player_info = get_parent().get_parent().get_parent().player_info
+	
 
 func _on_button_pressed():
 	var peer_id = $VBoxContainer/HBoxContainer2/OptionButton.get_selected_peer_id()
@@ -135,7 +146,9 @@ func _on_button_pressed():
 	
 	rpc_id(peer_id, "send_message", message)
 
+
 var selected_peer_id = 1
+
 
 func _on_option_button_item_selected(index):
 	selected_peer_id = int($VBoxContainer/HBoxContainer2/OptionButton.peer_ids[index])
@@ -143,10 +156,26 @@ func _on_option_button_item_selected(index):
 		message_logs[selected_peer_id] = ""
 	$VBoxContainer/Messages.text = message_logs[selected_peer_id]
 
+
+@rpc("any_peer", "call_local")
+func registered():
+	if multiplayer.get_remote_sender_id() != 1:
+		return
+	$VBoxContainer/Messages.visible = true
+
+
 @rpc("any_peer", "call_local")
 func refresh_peers():
 	var option_button = $VBoxContainer/HBoxContainer2/OptionButton
 	option_button.refresh_peers()
+	
+
+@rpc("any_peer", "call_local")
+func refresh_infos():
+	if multiplayer.get_remote_sender_id() != 1:
+		return
+	player_info = get_parent().get_parent().get_parent().player_info
+	
 
 @rpc("any_peer", "call_local")
 func register_player(info: Dictionary):
@@ -157,14 +186,11 @@ func register_player(info: Dictionary):
 	info.peer_id = sender_id
 	player_info[sender_id] = info
 	
+	rpc("registered")
 	rpc("refresh_peers")
 	rpc("refresh_infos")
 
 func _on_register_pressed():
-	if (peer_id == 1):
-		var server_name = "server"
-		$VBoxContainer/Label.text = server_name
-		return
 	var el = $VBoxContainer/LineEdit2
 	var name = el.text
 	if name == null or len(name) == 0:
