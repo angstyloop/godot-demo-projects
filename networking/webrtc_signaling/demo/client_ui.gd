@@ -63,7 +63,13 @@ func lookup_by_name(name):
 func _lobby_joined(lobby):
 	_log("[Signaling] Joined lobby %s" % lobby)
 	peer_id = client.rtc_mp.get_unique_id()
-	$VBoxContainer/Label.text = "Peer ID: %s" % str(peer_id)
+	var hbox = $VBoxContainer/HBoxContainer
+	hbox.get_node("Register").visible = true
+	hbox.get_node("Leave").visible = true
+	hbox.get_node("Ping").visible = true
+	hbox.get_node("Peers").visible = true
+	if peer_id == 1:
+		hbox.get_node("Seal").visible = true
 
 
 func _lobby_sealed():
@@ -159,6 +165,8 @@ func register_player(info: Dictionary):
 
 func _on_register_pressed():
 	if (peer_id == 1):
+		var server_name = "server"
+		$VBoxContainer/Label.text = server_name
 		return
 	var el = $VBoxContainer/LineEdit2
 	var name = el.text
@@ -175,4 +183,4 @@ func _on_register_pressed():
 	info.player_id = randi()
 	info.peer_id = peer_id
 	rpc_id(1, "register_player", info)
-	$VBoxContainer/Label.text += "    Name: %s" % name
+	$VBoxContainer/Label.text = name

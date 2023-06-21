@@ -58,23 +58,28 @@ layout_mode = 2
 text = "Join"
 
 [node name="Register" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Register"
 
 [node name="Leave" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Leave
 "
 
 [node name="Seal" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Seal"
 
 [node name="Ping" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Ping"
 
 [node name="Peers" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Print peers"
 
@@ -88,10 +93,6 @@ layout_mode = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "To:"
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
