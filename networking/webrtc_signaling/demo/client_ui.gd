@@ -120,6 +120,11 @@ func _on_option_button_item_selected(index):
 	$VBoxContainer/TextEdit.text = message_logs[selected_peer_id]
 
 @rpc("any_peer", "call_local")
+func refresh_peers():
+	var option_button = $VBoxContainer/HBoxContainer2/OptionButton
+	option_button.refresh_peers()
+
+@rpc("any_peer", "call_local")
 func register_player(info: Dictionary):
 	if (peer_id != 1):
 		return
@@ -127,6 +132,8 @@ func register_player(info: Dictionary):
 	var sender_id = multiplayer.get_remote_sender_id()
 	info.peer_id = sender_id
 	player_info[sender_id] = info
+	
+	rpc("refresh_peers")
 
 func _on_register_pressed():
 	if (peer_id == 1):

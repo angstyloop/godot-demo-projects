@@ -10,12 +10,17 @@ func _ready():
 	selected = 0
 	
 func refresh_peers():
-	client = get_parent().get_parent().get_parent().get_node("Client")
+	var client_api = get_parent().get_parent().get_parent()
+	client = client_api.get_node("Client")
 	peers = client.rtc_mp.get_peers()
 	peer_ids = peers.keys()
 	clear()
 	for id in peer_ids:
-		add_item(str(id))
+		if id == 1:
+			add_item("server")
+		elif client_api.player_info.has(id):
+			var s = client_api.player_info[id].name
+			add_item(s)
 
 func get_selected_peer_id():
 	if selected == -1 or len(peer_ids) == 0:
