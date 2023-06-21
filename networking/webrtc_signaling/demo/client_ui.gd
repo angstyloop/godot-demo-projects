@@ -55,9 +55,9 @@ func _disconnected():
 	_log("[Signaling] Server disconnected: %d - %s" % [client.code, client.reason])
 
 func lookup_by_name(name):
-	for peer_id in get_parent().get_parent().get_parent().player_info.keys():
-		if get_parent().get_parent().get_parent().player_info[peer_id].name == name:
-			return get_parent().get_parent().get_parent().player_info[peer_id]
+	for peer_id in player_info.keys():
+		if player_info[peer_id].name == name:
+			return player_info[peer_id]
 	return null
 
 func _lobby_joined(lobby):
@@ -68,15 +68,6 @@ func _lobby_joined(lobby):
 
 func _lobby_sealed():
 	_log("[Signaling] Lobby has been sealed")
-
-
-@rpc("any_peer", "call_local")
-func register_player(info: Dictionary):
-	print("register_player")
-	print(info)
-	var sender_id = multiplayer.get_remote_sender_id()
-	info.peer_id = sender_id
-	get_parent().get_parent().get_parent().player_info[sender_id] = info
 
 func _log(msg):
 	print(msg)
@@ -128,11 +119,18 @@ func _on_option_button_item_selected(index):
 		message_logs[selected_peer_id] = ""
 	$VBoxContainer/TextEdit.text = message_logs[selected_peer_id]
 
+@rpc("any_peer", "call_local")
+func register_player(info: Dictionary):
+	if (peer_id != 1):
+		return
+		
+	var sender_id = multiplayer.get_remote_sender_id()
+	info.peer_id = sender_id
+	player_info[sender_id] = info
 
 func _on_register_pressed():
 	if (peer_id == 1):
 		return
-	
 	var el = $VBoxContainer/LineEdit2
 	var name = el.text
 	if name == null or len(name) == 0:
@@ -141,12 +139,11 @@ func _on_register_pressed():
 	while info != null:
 		var old_name = name
 		name = "user_%d" % randi()
-		print("Player with name %s already exists. Generated new name %s" % [old_name, name])
+		_log("Name %s already taken. Generated new name %s. Register again at any time." % [old_name, name])
 		info = lookup_by_name(name)
 	info = {}
 	info.name = name
 	info.player_id = randi()
 	info.peer_id = peer_id
-	print("calling rpc")
 	rpc_id(1, "register_player", info)
 	$VBoxContainer/Label.text += "    Name: %s" % name
